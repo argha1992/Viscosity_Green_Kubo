@@ -19,7 +19,7 @@ This repository contains two primary scripts designed to facilitate the extracti
 - GROMACS installed with or without MPI support (`gmx_mpi`).
 - Access to a Unix/Linux environment for the shell script.
 - Python 3.10 (or above)
-- Python packages: NumPy, SciPy, MDAnalysis
+- Python packages: NumPy, MDAnalysis
 
 ## Getting Started
 
