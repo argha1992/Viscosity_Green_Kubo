@@ -1,18 +1,51 @@
+"""
+This script automates the analysis of molecular dynamics (MD) simulations to calculate the viscosity of a system from pressure autocorrelation functions using Green-Kubo equation. It processes simulation data (Preussure-xy in .xvg format) across 100 subdirectories (r1 to r100), each containing pressure, topology, and trajectory files (GROMACS output).
+
+Key Features:
+- Directory Management: Automatically checks for and creates a designated output directory ('pxy_cor_cnt12_12') to store all generated outputs and log files, ensuring organized data management.
+
+- Data Processing: Iterates through 100 subdirectories, each representing a separate simulation run, to process pressure data from 'pressure.xvg' files and compute the pressure autocorrelation function for the initial 6001 data points.
+
+- Volume Calculation: Uses MDAnalysis, a sophisticated tool for analyzing MD simulations, to calculate the system's volume at various timesteps, further computing an average volume that plays a vital role in viscosity calculation.
+The viscosity is calculated using the equation:
+
+    η_sys = (V / (K_B * T)) * ∫_0^t ⟨P_xy(t) * P_xy(t+τ)⟩_t dτ
+
+- V is the average volume of the system, 
+- K_B is the Boltzmann constant, 
+- T is the temperature, 
+- P_xy(t) is the off-diagonal pressure tensor component at time t, and τ is the time lag 
+
+
+- Viscosity Calculation: Employs the autocorrelation function and the average volume, alongside physical constants and specified temperature (310K), to accurately calculate the system's viscosity. This is a critical step in assessing the fluid dynamic properties of the system under study.
+
+- Logging and Output: Detailed logs are maintained for each step of the process, and viscosity values are recorded in a separate file. Additionally, results of the pressure autocorrelation function and average volume calculations are saved in a structured format for further analysis.
+
+Requirements:
+- Python 3.12 (>3)
+- MDnanlysis
+- Numpy
+
+
+Usage: 
+- python3 pressure_correlation.py
+"""
+
+
 import os
 import numpy as np
-import matplotlib.pyplot as plt
 import MDAnalysis as mda
 
 # Path for the new directory where the output files will be saved
-output_directory = 'pxy_cor_cnt12_12'
+output_directory = 'pxy_cor_dppc'
 # Create the output directory if it does not exist
 if not os.path.exists(output_directory):
     os.makedirs(output_directory)
 
 # Open a log file in write mode
-with open(os.path.join('pxy_cor_cnt12_12', 'process_log.txt'), 'w') as log_file:
+with open(os.path.join('pxy_cor_dppc', 'process_log.txt'), 'w') as log_file:
     # Open a separate file for recording viscosities
-    with open(os.path.join('pxy_cor_cnt12_12', 'viscosities.txt'), 'w') as viscosities_file:
+    with open(os.path.join('pxy_cor_dppc', 'viscosities.txt'), 'w') as viscosities_file:
     # List of the subdirectories
         subdirectories = [f"r{i}" for i in range(1, 101)]
 
@@ -71,7 +104,7 @@ with open(os.path.join('pxy_cor_cnt12_12', 'process_log.txt'), 'w') as log_file:
             viscosities_file.write(f"{subdir}\t{viscosity}\n")
 
             # Write average_volume and pp_corr to a txt file
-            output_file = os.path.join(output_directory, f'pp_corr_cnt12_12_{subdir}.txt')
+            output_file = os.path.join(output_directory, f'pp_corr_dppc_{subdir}.txt')
             with open(output_file, 'w') as f:
                 f.write(f"{average_volume}\n")
                 for item in pp_corr:
