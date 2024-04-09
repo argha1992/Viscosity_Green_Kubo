@@ -6,7 +6,7 @@ Argha Mitra
 
 # GROMACS Pressure Data Extraction & Correlation Analysis
 
-This repository contains two primary scripts designed to facilitate the extraction and analysis of pressure data from molecular dynamics (MD) simulations conducted with GROMACS. GROMACS is a widely used software package for simulating proteins, lipids, and nucleic acids.
+This repository contains two primary scripts designed to facilitate the extraction and analysis of pressure data from molecular dynamics (MD) simulations conducted with GROMACS. GROMACS is a widely used software package for simulating proteins, lipids, and nucleic acids. 
 
 ## Scripts
 
